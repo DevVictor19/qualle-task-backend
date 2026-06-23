@@ -1,4 +1,9 @@
-export abstract class BaseRepository<DomainEntity, InfraEntity> {
+import { BaseEntity } from '@/shared/domain';
+
+export abstract class BaseRepository<
+  DomainEntity extends BaseEntity,
+  InfraEntity,
+> {
   abstract save(entity: DomainEntity): Promise<DomainEntity>;
   abstract saveMany(entities: DomainEntity[]): Promise<DomainEntity[]>;
   abstract update(entity: DomainEntity): Promise<DomainEntity>;
