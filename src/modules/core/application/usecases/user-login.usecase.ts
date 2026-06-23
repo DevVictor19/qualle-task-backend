@@ -3,6 +3,7 @@ import { Injectable } from '@nestjs/common';
 import { UserLoginInputDto, UserLoginOutputDto } from '../dtos';
 import { UserRepository } from '../../domain';
 import { HashService, JwtService } from '../services';
+import { UnauthorizedError } from '../errors';
 
 @Injectable()
 export class UserLoginUseCase implements UseCase<
@@ -18,7 +19,7 @@ export class UserLoginUseCase implements UseCase<
   async execute(input: UserLoginInputDto): Promise<UserLoginOutputDto> {
     const user = await this.userRepository.findByEmail(input.email);
     if (!user) {
-      throw new Error('User not found');
+      throw new UnauthorizedError('Invalid email or password');
     }
 
     const isValidPassword = await this.hashService.compare(
@@ -26,7 +27,7 @@ export class UserLoginUseCase implements UseCase<
       user.password,
     );
     if (!isValidPassword) {
-      throw new Error('Invalid password');
+      throw new UnauthorizedError('Invalid email or password');
     }
 
     const oneHourInSeconds = 60 * 60;
