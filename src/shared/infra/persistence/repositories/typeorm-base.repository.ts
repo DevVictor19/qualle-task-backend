@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import { ObjectLiteral, Repository } from 'typeorm';
-import { BaseRepository } from '@/shared/application';
-import { BaseEntity } from '@/shared/domain';
+import { BaseEntity, BaseRepository } from '@/shared/domain';
 
 export abstract class TypeOrmBaseRepository<
   D extends BaseEntity,

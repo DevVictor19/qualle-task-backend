@@ -1,13 +1,13 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import { ObjectLiteral } from 'typeorm';
 import {
+  BaseEntity,
   PaginatedRepository,
   PaginatedResult,
   PaginatedSearchParams,
   SearchOperator,
   SortOrder,
-} from '@/shared/application';
-import { BaseEntity } from '@/shared/domain';
+} from '@/shared/domain';
 import { TypeOrmBaseRepository } from './typeorm-base.repository';
 
 export abstract class TypeOrmPaginatedRepository<
