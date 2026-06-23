@@ -1,18 +1,11 @@
 import { BaseEntity } from '@/shared/domain';
 
-export abstract class BaseRepository<
-  DomainEntity extends BaseEntity,
-  InfraEntity,
-> {
-  abstract save(entity: DomainEntity): Promise<DomainEntity>;
-  abstract saveMany(entities: DomainEntity[]): Promise<DomainEntity[]>;
-  abstract update(entity: DomainEntity): Promise<DomainEntity>;
-  abstract findById(id: string): Promise<DomainEntity | null>;
-  abstract findAll(): Promise<DomainEntity[]>;
+export abstract class BaseRepository<E extends BaseEntity> {
+  abstract save(entity: E): Promise<E>;
+  abstract saveMany(entities: E[]): Promise<E[]>;
+  abstract update(entity: E): Promise<E>;
+  abstract findById(id: string): Promise<E | null>;
+  abstract findAll(): Promise<E[]>;
   abstract count(): Promise<number>;
   abstract delete(id: string): Promise<void>;
-
-  abstract getRelations(): string[];
-  abstract toInfraEntity(entity: DomainEntity): InfraEntity;
-  abstract toDomainEntity(entity: InfraEntity): DomainEntity;
 }

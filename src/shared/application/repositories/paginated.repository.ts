@@ -1,3 +1,4 @@
+import { BaseEntity } from '@/shared/domain';
 import { BaseRepository } from './base.repository';
 
 export interface PaginatedSearchParams {
@@ -35,18 +36,17 @@ export enum SortOrder {
   DESC = 'desc',
 }
 
-export interface PaginatedResult<DomainEntity> {
+export interface PaginatedResult<E> {
   total: number;
   page: number;
   limit: number;
-  data: DomainEntity[];
+  data: E[];
 }
 
 export abstract class PaginatedRepository<
-  DomainEntity,
-  InfraEntity,
-> extends BaseRepository<DomainEntity, InfraEntity> {
+  E extends BaseEntity,
+> extends BaseRepository<E> {
   abstract findPaginated(
     params: PaginatedSearchParams,
-  ): Promise<PaginatedResult<DomainEntity>>;
+  ): Promise<PaginatedResult<E>>;
 }

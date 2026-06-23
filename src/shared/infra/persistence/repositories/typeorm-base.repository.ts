@@ -6,10 +6,8 @@ import { BaseEntity } from '@/shared/domain';
 export abstract class TypeOrmBaseRepository<
   D extends BaseEntity,
   I extends ObjectLiteral,
-> extends BaseRepository<D, I> {
-  constructor(protected readonly repository: Repository<I>) {
-    super();
-  }
+> implements BaseRepository<D> {
+  constructor(protected readonly repository: Repository<I>) {}
 
   async save(entity: D): Promise<D> {
     const infraEntity = this.toInfraEntity(entity);
@@ -77,4 +75,8 @@ export abstract class TypeOrmBaseRepository<
     }
     return relationMap;
   }
+
+  abstract getRelations(): string[];
+  abstract toInfraEntity(entity: D): I;
+  abstract toDomainEntity(entity: I): D;
 }

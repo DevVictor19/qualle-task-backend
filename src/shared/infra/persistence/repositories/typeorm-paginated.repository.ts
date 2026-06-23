@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import { ObjectLiteral } from 'typeorm';
 import {
+  PaginatedRepository,
   PaginatedResult,
   PaginatedSearchParams,
   SearchOperator,
@@ -12,7 +13,10 @@ import { TypeOrmBaseRepository } from './typeorm-base.repository';
 export abstract class TypeOrmPaginatedRepository<
   D extends BaseEntity,
   I extends ObjectLiteral,
-> extends TypeOrmBaseRepository<D, I> {
+>
+  extends TypeOrmBaseRepository<D, I>
+  implements PaginatedRepository<D>
+{
   async findPaginated(
     params: PaginatedSearchParams,
   ): Promise<PaginatedResult<D>> {
