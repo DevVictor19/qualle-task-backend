@@ -1,11 +1,4 @@
-import { ApplicationError } from './application.error';
-
-export enum ApplicationErrCode {
-  VALIDATION_ERROR = 'VALIDATION_ERROR',
-  RESOURCE_NOT_FOUND = 'RESOURCE_NOT_FOUND',
-  UNAUTHORIZED = 'UNAUTHORIZED',
-  CONFLICT = 'CONFLICT',
-}
+import { ApplicationErrCode, ApplicationError } from './application.error';
 
 export class ValidationError extends ApplicationError {
   readonly code = ApplicationErrCode.VALIDATION_ERROR;
