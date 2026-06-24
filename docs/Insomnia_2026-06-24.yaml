@@ -1,0 +1,549 @@
+type: collection.insomnia.rest/5.0
+schema_version: "5.1"
+name: v1
+meta:
+  id: wrk_15f682f47ca440a6a45a26ca31bdc474
+  created: 1782321460115
+  modified: 1782321472721
+  description: ""
+collection:
+  - name: auth
+    meta:
+      id: fld_4ce1e626002b42d9a7d451a431a2c4cc
+      created: 1782321479705
+      modified: 1782321479705
+      sortKey: -1782321479705
+      description: ""
+    children:
+      - url: "{{api}}"
+        name: login
+        meta:
+          id: req_17bad1c786ce4794a684a42810526519
+          created: 1782321631679
+          modified: 1782325635112
+          isPrivate: false
+          description: ""
+          sortKey: -1782321631679
+        method: POST
+        body:
+          mimeType: application/graphql
+          text: '{"query":"mutation {\n  login(input: { email: \"antonio@test.com\",
+            password: \"12345678\" })
+            {\n    accessToken\n    refreshToken\n  }\n}"}'
+        headers:
+          - name: User-Agent
+            value: insomnia/12.2.0
+            description: ""
+            disabled: false
+          - name: Content-Type
+            value: application/json
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{api}}"
+        name: signup
+        meta:
+          id: req_6c823db1618c43daa5a788a642e8561e
+          created: 1782321719833
+          modified: 1782321815055
+          isPrivate: false
+          description: ""
+          sortKey: -1778828209515
+        method: POST
+        body:
+          mimeType: application/graphql
+          text: '{"query":"mutation {\n  register(input: {\n    name: \"Test\"\n    email:
+            \"test@test.com\"\n    password: \"12345678\"\n  })\n}"}'
+        headers:
+          - name: User-Agent
+            value: insomnia/12.2.0
+            description: ""
+            disabled: false
+          - name: Content-Type
+            value: application/json
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+  - name: users
+    meta:
+      id: fld_08df2b846867465aac84d6754160dec7
+      created: 1782321751736
+      modified: 1782321850081
+      sortKey: -1782321751736
+      description: ""
+    children:
+      - url: "{{api}}"
+        name: Me
+        meta:
+          id: req_0d3069a178684c37abc2d05e1619d3e6
+          created: 1782321854770
+          modified: 1782322023067
+          isPrivate: false
+          description: ""
+          sortKey: -1782321854770
+        method: POST
+        body:
+          mimeType: application/graphql
+          text: '{"query":"query {\n  me
+            {\n    id\n    name\n    email\n    createdAt\n    updatedAt\n  }\n}"}'
+        headers:
+          - name: User-Agent
+            value: insomnia/12.2.0
+            description: ""
+            disabled: false
+          - name: Content-Type
+            value: application/json
+        authentication:
+          type: bearer
+          token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJhZDMwMDYyZS1hMzE5LTRkMzYtOGMyZC1jMjNhMzk1NWUxNTUiLCJ0eXBlIjoiYWNjZXNzX3Rva2VuIiwiaWF0IjoxNzgyMzIxODEwLCJleHAiOjE3ODIzMjU0MTAsImlzcyI6InlvdXJfand0X2lzc3VlciJ9.uT_UqaeEOrX0Nqq69pyjj5Yg63PUuRTy-L6ygVAejdY
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{api}}"
+        name: Users
+        meta:
+          id: req_4e6494fdb933494bbf35d1b05f4fda05
+          created: 1782321918696
+          modified: 1782322029052
+          isPrivate: false
+          description: ""
+          sortKey: -1782321743224.5
+        method: POST
+        body:
+          mimeType: application/graphql
+          text: '{"query":"query {\n  users(input: { page: 1, limit: 10, name: \"João\" })
+            {\n    total\n    page\n    limit\n    data
+            {\n      id\n      name\n      email\n      createdAt\n    }\n  }\n}"}'
+        headers:
+          - name: User-Agent
+            value: insomnia/12.2.0
+            description: ""
+            disabled: false
+          - name: Content-Type
+            value: application/json
+        authentication:
+          type: bearer
+          token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJhZDMwMDYyZS1hMzE5LTRkMzYtOGMyZC1jMjNhMzk1NWUxNTUiLCJ0eXBlIjoiYWNjZXNzX3Rva2VuIiwiaWF0IjoxNzgyMzIxODEwLCJleHAiOjE3ODIzMjU0MTAsImlzcyI6InlvdXJfand0X2lzc3VlciJ9.uT_UqaeEOrX0Nqq69pyjj5Yg63PUuRTy-L6ygVAejdY
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+  - name: tasks
+    meta:
+      id: fld_38f4264746f340d6974d3a0ec2c8d7dc
+      created: 1782322043917
+      modified: 1782322043917
+      sortKey: -1782321615720.5
+      description: ""
+    children:
+      - url: "{{api}}"
+        name: Tasks
+        meta:
+          id: req_94664eb25df34ecaa3cb91e9edfd4ea0
+          created: 1782322043918
+          modified: 1782325443145
+          isPrivate: false
+          description: ""
+          sortKey: -1782321854770
+        method: POST
+        body:
+          mimeType: application/graphql
+          text: '{"query":"query {\n  tasks(input: { page: 1, limit: 10 })
+            {\n    total\n    page\n    limit\n    data
+            {\n      id\n      title\n      status\n      priority\n      overDueDate\n      creator
+            { id name }\n      assignees { id name }\n      comments { id
+            content userId }\n    }\n  }\n}"}'
+        headers:
+          - name: User-Agent
+            value: insomnia/12.2.0
+            description: ""
+            disabled: false
+          - name: Content-Type
+            value: application/json
+        authentication:
+          type: bearer
+          token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJhZDMwMDYyZS1hMzE5LTRkMzYtOGMyZC1jMjNhMzk1NWUxNTUiLCJ0eXBlIjoiYWNjZXNzX3Rva2VuIiwiaWF0IjoxNzgyMzI1NDMzLCJleHAiOjE3ODIzMjkwMzMsImlzcyI6InlvdXJfand0X2lzc3VlciJ9.hybVr8TyAn5vxtwYLA1QcwzrrBSVEFw57W06wvFcog4
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{api}}"
+        name: Task Details
+        meta:
+          id: req_bffa44052f274b838a9408dc94499cb2
+          created: 1782322043919
+          modified: 1782322108143
+          isPrivate: false
+          description: ""
+          sortKey: -1782321743224.5
+        method: POST
+        body:
+          mimeType: application/graphql
+          text: '{"query":"query {\n  task(taskId:
+            \"a9535835-e26e-4ee4-a35d-166d5691e005\")
+            {\n    id\n    title\n    description\n    status\n    priority\n    overDueDate\n    creator
+            { id name email }\n    assignees { id name email }\n    comments {
+            id content userId createdAt
+            }\n    createdAt\n    updatedAt\n  }\n}"}'
+        headers:
+          - name: User-Agent
+            value: insomnia/12.2.0
+            description: ""
+            disabled: false
+          - name: Content-Type
+            value: application/json
+        authentication:
+          type: bearer
+          token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJhZDMwMDYyZS1hMzE5LTRkMzYtOGMyZC1jMjNhMzk1NWUxNTUiLCJ0eXBlIjoiYWNjZXNzX3Rva2VuIiwiaWF0IjoxNzgyMzIxODEwLCJleHAiOjE3ODIzMjU0MTAsImlzcyI6InlvdXJfand0X2lzc3VlciJ9.uT_UqaeEOrX0Nqq69pyjj5Yg63PUuRTy-L6ygVAejdY
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{api}}"
+        name: Create Task
+        meta:
+          id: req_898ef3867ec14fe3ad627b516fffc2d4
+          created: 1782322133036
+          modified: 1782322139697
+          isPrivate: false
+          description: ""
+          sortKey: -1782321687451.75
+        method: POST
+        body:
+          mimeType: application/graphql
+          text: '{"query":"mutation {\n  createTask(input: {\n    title: \"Implementar
+            feature X\"\n    description: \"Descrição opcional\"\n    status:
+            TODO\n    priority: HIGH\n    overDueDate:
+            \"2026-07-01T00:00:00.000Z\"\n  })
+            {\n    id\n    title\n    status\n    priority\n  }\n}"}'
+        headers:
+          - name: User-Agent
+            value: insomnia/12.2.0
+            description: ""
+            disabled: false
+          - name: Content-Type
+            value: application/json
+        authentication:
+          type: bearer
+          token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJhZDMwMDYyZS1hMzE5LTRkMzYtOGMyZC1jMjNhMzk1NWUxNTUiLCJ0eXBlIjoiYWNjZXNzX3Rva2VuIiwiaWF0IjoxNzgyMzIxODEwLCJleHAiOjE3ODIzMjU0MTAsImlzcyI6InlvdXJfand0X2lzc3VlciJ9.uT_UqaeEOrX0Nqq69pyjj5Yg63PUuRTy-L6ygVAejdY
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{api}}"
+        name: Update Task
+        meta:
+          id: req_8020472c42d04d918acac232544e2b8d
+          created: 1782322150598
+          modified: 1782323414649
+          isPrivate: false
+          description: ""
+          sortKey: -1782321659565.375
+        method: POST
+        body:
+          mimeType: application/graphql
+          text: '{"query":"mutation {\n  updateTask(input: {\n    taskId:
+            \"a9535835-e26e-4ee4-a35d-166d5691e005\"\n    title: \"Novo
+            título\"\n    status: IN_PROGRESS\n  })
+            {\n    id\n    title\n    status\n    updatedAt\n  }\n}"}'
+        headers:
+          - name: User-Agent
+            value: insomnia/12.2.0
+            description: ""
+            disabled: false
+          - name: Content-Type
+            value: application/json
+        authentication:
+          type: bearer
+          token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJhZDMwMDYyZS1hMzE5LTRkMzYtOGMyZC1jMjNhMzk1NWUxNTUiLCJ0eXBlIjoiYWNjZXNzX3Rva2VuIiwiaWF0IjoxNzgyMzIxODEwLCJleHAiOjE3ODIzMjU0MTAsImlzcyI6InlvdXJfand0X2lzc3VlciJ9.uT_UqaeEOrX0Nqq69pyjj5Yg63PUuRTy-L6ygVAejdY
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{api}}"
+        name: Delete Task
+        meta:
+          id: req_9b53c8d4f6ff49d6a2a2ed38391b2ca1
+          created: 1782322175035
+          modified: 1782322225574
+          isPrivate: false
+          description: ""
+          sortKey: -1782321645622.1875
+        method: POST
+        body:
+          mimeType: application/graphql
+          text: '{"query":"mutation {\n  deleteTask(input: { taskId:
+            \"49457717-b861-4c7c-b47a-1c2437810194\" })\n}"}'
+        headers:
+          - name: User-Agent
+            value: insomnia/12.2.0
+            description: ""
+            disabled: false
+          - name: Content-Type
+            value: application/json
+        authentication:
+          type: bearer
+          token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJhZDMwMDYyZS1hMzE5LTRkMzYtOGMyZC1jMjNhMzk1NWUxNTUiLCJ0eXBlIjoiYWNjZXNzX3Rva2VuIiwiaWF0IjoxNzgyMzIxODEwLCJleHAiOjE3ODIzMjU0MTAsImlzcyI6InlvdXJfand0X2lzc3VlciJ9.uT_UqaeEOrX0Nqq69pyjj5Yg63PUuRTy-L6ygVAejdY
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{api}}"
+        name: Assign Task
+        meta:
+          id: req_847847dcbb0f4b8b8ab34c50a93e98c9
+          created: 1782322213724
+          modified: 1782325581980
+          isPrivate: false
+          description: ""
+          sortKey: -1782321638650.5938
+        method: POST
+        body:
+          mimeType: application/graphql
+          text: '{"query":"mutation {\n  assignTask(input: {\n    taskId:
+            \"d858c191-c541-47cb-9d2a-b86fdd313889\"\n    assigneeIds:
+            [\"ad30062e-a319-4d36-8c2d-c23a3955e155\"]\n  })
+            {\n    id\n    assignees { id name email }\n  }\n}"}'
+        headers:
+          - name: User-Agent
+            value: insomnia/12.2.0
+            description: ""
+            disabled: false
+          - name: Content-Type
+            value: application/json
+        authentication:
+          type: bearer
+          token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJhZDMwMDYyZS1hMzE5LTRkMzYtOGMyZC1jMjNhMzk1NWUxNTUiLCJ0eXBlIjoiYWNjZXNzX3Rva2VuIiwiaWF0IjoxNzgyMzI1NDMzLCJleHAiOjE3ODIzMjkwMzMsImlzcyI6InlvdXJfand0X2lzc3VlciJ9.hybVr8TyAn5vxtwYLA1QcwzrrBSVEFw57W06wvFcog4
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{api}}"
+        name: Add Comment
+        meta:
+          id: req_8a87e8d02951422da6367aba8edcfeb9
+          created: 1782322286978
+          modified: 1782325465338
+          isPrivate: false
+          description: ""
+          sortKey: -1782321635164.7969
+        method: POST
+        body:
+          mimeType: application/graphql
+          text: '{"query":"mutation {\n  addComment(input: {\n    taskId:
+            \"d858c191-c541-47cb-9d2a-b86fdd313889\"\n    content: \"Comentário
+            aqui.\"\n  }) {\n    id\n    comments { id content userId createdAt
+            }\n  }\n}"}'
+        headers:
+          - name: User-Agent
+            value: insomnia/12.2.0
+            description: ""
+            disabled: false
+          - name: Content-Type
+            value: application/json
+        authentication:
+          type: bearer
+          token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJhZDMwMDYyZS1hMzE5LTRkMzYtOGMyZC1jMjNhMzk1NWUxNTUiLCJ0eXBlIjoiYWNjZXNzX3Rva2VuIiwiaWF0IjoxNzgyMzI1NDMzLCJleHAiOjE3ODIzMjkwMzMsImlzcyI6InlvdXJfand0X2lzc3VlciJ9.hybVr8TyAn5vxtwYLA1QcwzrrBSVEFw57W06wvFcog4
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+  - name: tasks-subscriptions
+    meta:
+      id: fld_8207dd0edab74deaa460244ac5848f29
+      created: 1782322685198
+      modified: 1782322685198
+      sortKey: -1782321683728.25
+      description: ""
+    children:
+      - url: ws://localhost:3000/graphql
+        name: TaskUpdated
+        meta:
+          id: req_ceea0ff86b4c40feb258ce97113c7690
+          created: 1782322685199
+          modified: 1782325424540
+          isPrivate: false
+          description: ""
+          sortKey: -1782321854770
+        method: POST
+        body:
+          mimeType: application/graphql
+          text: '{"query":"subscription {\n  taskUpdated
+            {\n    taskId\n    eventAuthorId\n    eventType\n  }\n}"}'
+        headers:
+          - name: User-Agent
+            value: insomnia/12.2.0
+            description: ""
+            disabled: false
+          - name: Content-Type
+            value: application/json
+        authentication:
+          type: bearer
+          token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJhZDMwMDYyZS1hMzE5LTRkMzYtOGMyZC1jMjNhMzk1NWUxNTUiLCJ0eXBlIjoiYWNjZXNzX3Rva2VuIiwiaWF0IjoxNzgyMzIyODg3LCJleHAiOjE3ODIzMjY0ODcsImlzcyI6InlvdXJfand0X2lzc3VlciJ9.EsbKZv0yF1CYJJfEr6zcAKyXuRKdi-OxohWKSWyQo_o
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: ws://localhost:3000/graphql
+        name: TaskAssigned
+        meta:
+          id: req_6aee4b0386f641e48bb971039fc24a66
+          created: 1782323765757
+          modified: 1782323782509
+          isPrivate: false
+          description: ""
+          sortKey: -1782321798997.25
+        method: POST
+        body:
+          mimeType: application/graphql
+          text: '{"query":"subscription {\n  taskAssigned
+            {\n    taskId\n    eventAuthorId\n    eventType\n  }\n}"}'
+        headers:
+          - name: User-Agent
+            value: insomnia/12.2.0
+            description: ""
+            disabled: false
+          - name: Content-Type
+            value: application/json
+        authentication:
+          type: bearer
+          token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJhZDMwMDYyZS1hMzE5LTRkMzYtOGMyZC1jMjNhMzk1NWUxNTUiLCJ0eXBlIjoiYWNjZXNzX3Rva2VuIiwiaWF0IjoxNzgyMzIyODg3LCJleHAiOjE3ODIzMjY0ODcsImlzcyI6InlvdXJfand0X2lzc3VlciJ9.EsbKZv0yF1CYJJfEr6zcAKyXuRKdi-OxohWKSWyQo_o
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: ws://localhost:3000/graphql
+        name: TaskNewComment
+        meta:
+          id: req_5f9304c0b3834c4394962c3590a7f3c3
+          created: 1782323799293
+          modified: 1782323848715
+          isPrivate: false
+          description: ""
+          sortKey: -1782321771110.875
+        method: POST
+        body:
+          mimeType: application/graphql
+          text: '{"query":"subscription {\n  taskNewComment
+            {\n    taskId\n    eventAuthorId\n    eventType\n  }\n}"}'
+        headers:
+          - name: User-Agent
+            value: insomnia/12.2.0
+            description: ""
+            disabled: false
+          - name: Content-Type
+            value: application/json
+        authentication:
+          type: bearer
+          token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJhZDMwMDYyZS1hMzE5LTRkMzYtOGMyZC1jMjNhMzk1NWUxNTUiLCJ0eXBlIjoiYWNjZXNzX3Rva2VuIiwiaWF0IjoxNzgyMzIyODg3LCJleHAiOjE3ODIzMjY0ODcsImlzcyI6InlvdXJfand0X2lzc3VlciJ9.EsbKZv0yF1CYJJfEr6zcAKyXuRKdi-OxohWKSWyQo_o
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: ws://localhost:3000/graphql
+        name: TaskNewComment2
+        meta:
+          id: req_a52ecd4c80dd4ea3a123ec30994fa769
+          created: 1782325668486
+          modified: 1782325672209
+          isPrivate: false
+          description: ""
+          sortKey: -1782321757167.6875
+        method: POST
+        body:
+          mimeType: application/graphql
+          text: '{"query":"subscription {\n  taskNewComment
+            {\n    taskId\n    eventAuthorId\n    eventType\n  }\n}"}'
+        headers:
+          - name: User-Agent
+            value: insomnia/12.2.0
+            description: ""
+            disabled: false
+          - name: Content-Type
+            value: application/json
+        authentication:
+          type: bearer
+          token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIyZmM4ZDYwNi1lNzQyLTQ4NGMtYWY1YS03YzNkNWIwMDYyM2YiLCJ0eXBlIjoiYWNjZXNzX3Rva2VuIiwiaWF0IjoxNzgyMzI1NjM2LCJleHAiOjE3ODIzMjkyMzYsImlzcyI6InlvdXJfand0X2lzc3VlciJ9.HrBtPlBaB-Flq6GnS5AZB3-zl5QFsSXF9Tyz_Rmd-G0
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+cookieJar:
+  name: Default Jar
+  meta:
+    id: jar_a4ef695668bc87665524b7b64099a9bfdb22be18
+    created: 1782321460116
+    modified: 1782321460116
+environments:
+  name: Base Environment
+  meta:
+    id: env_a4ef695668bc87665524b7b64099a9bfdb22be18
+    created: 1782321460116
+    modified: 1782321975771
+    isPrivate: false
+  data:
+    api: http://localhost:3000/graphql
+    apiToken: ""

@@ -101,6 +101,36 @@ Copie o arquivo de exemplo e preencha as variáveis:
 cp .env.example .env
 ```
 
+## Como rodar
+
+### 1. Instalar dependências
+
+```bash
+pnpm install
+```
+
+### 2. Subir o banco de dados
+
+O projeto usa PostgreSQL via Docker Compose:
+
+```bash
+docker-compose up -d
+```
+
+### 3. Rodar as migrations
+
+```bash
+make migration-run
+```
+
+### 4. Iniciar o servidor
+
+```bash
+pnpm start:dev
+```
+
+O servidor estará disponível em `http://localhost:3000/graphql`.
+
 ## Migrations
 
 O projeto usa TypeORM com `synchronize: false`, ou seja, todas as mudanças de schema são feitas via migrations.
@@ -150,6 +180,10 @@ Com o servidor rodando em modo desenvolvimento (`NODE_ENV=development`), o playg
 ```
 http://localhost:3000/graphql
 ```
+
+### Coleção Insomnia
+
+Uma coleção do [Insomnia](https://insomnia.rest/download) está disponível em `docs/Insomnia_2026-06-24.yaml` com todas as requisições GraphQL (queries, mutations e subscriptions via WebSocket) pré-configuradas. Basta importar o arquivo no Insomnia e preencher o `accessToken` nas variáveis de ambiente da coleção.
 
 ### Rotas públicas
 
