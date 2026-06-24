@@ -1,7 +1,15 @@
-import { ArgumentsHost, BadRequestException, Catch } from '@nestjs/common';
+import {
+  ArgumentsHost,
+  BadRequestException,
+  Catch,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { GqlExceptionFilter } from '@nestjs/graphql';
 import { GraphQLError } from 'graphql';
-import { ApplicationError } from '../../../application/errors';
+import {
+  ApplicationErrCode,
+  ApplicationError,
+} from '../../../application/errors';
 import { ApplicationErrorMapper } from '@/shared/presentation';
 
 @Catch()
@@ -18,6 +26,12 @@ export class GraphqlExceptionFilter implements GqlExceptionFilter {
       });
     }
 
+    if (exception instanceof UnauthorizedException) {
+      return new GraphQLError(exception.message, {
+        extensions: { code: ApplicationErrCode.UNAUTHORIZED, status: 401 },
+      });
+    }
+
     if (exception instanceof BadRequestException) {
       const response = exception.getResponse() as {
         message: string | string[];
@@ -26,12 +40,12 @@ export class GraphqlExceptionFilter implements GqlExceptionFilter {
         ? response.message
         : [response.message];
       return new GraphQLError(messages.join('; '), {
-        extensions: { code: 'BAD_REQUEST', status: 400 },
+        extensions: { code: ApplicationErrCode.BAD_REQUEST, status: 400 },
       });
     }
 
     return new GraphQLError('Internal server error', {
-      extensions: { code: 'INTERNAL_SERVER_ERROR', status: 500 },
+      extensions: { code: ApplicationErrCode.INTERNAL_ERROR, status: 500 },
     });
   }
 }

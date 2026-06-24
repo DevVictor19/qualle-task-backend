@@ -20,6 +20,7 @@ import { CoreModule } from './modules/core/core.module';
           autoSchemaFile: true,
           playground: isDev,
           includeStacktraceInErrorResponses: isDev,
+          context: ({ req }: { req: Request }) => ({ req }),
         };
       },
     }),

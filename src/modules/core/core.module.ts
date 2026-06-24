@@ -1,4 +1,6 @@
 import { Module } from '@nestjs/common';
+import { APP_GUARD } from '@nestjs/core';
+import { JwtAuthGuard } from '@/shared/infra';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import {
   CommentOrmEntity,
@@ -46,6 +48,7 @@ import { LoginResolver, SignupResolver } from './presentation';
     ]),
   ],
   providers: [
+    { provide: APP_GUARD, useClass: JwtAuthGuard },
     { provide: CommentRepository, useClass: CommentTypeOrmRepository },
     {
       provide: TaskAssigneeRepository,
