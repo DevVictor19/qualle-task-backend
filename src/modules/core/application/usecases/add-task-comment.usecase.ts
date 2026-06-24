@@ -53,6 +53,7 @@ export class AddTaskCommentUseCase implements UseCase<
         taskId: task.id,
         eventAuthorId: input.userId,
         eventType: TaskEventType.TASK_NEW_COMMENT,
+        assigneeIds: task.assignees?.map((a) => a.id) ?? [],
       }),
     );
 

@@ -50,6 +50,7 @@ export class UpdateTaskUseCase implements UseCase<UpdateTaskInputDto, TaskDto> {
         taskId: task.id,
         eventAuthorId: input.userId,
         eventType: TaskEventType.TASK_UPDATED,
+        assigneeIds: task.assignees?.map((a) => a.id) ?? [],
       }),
     );
 

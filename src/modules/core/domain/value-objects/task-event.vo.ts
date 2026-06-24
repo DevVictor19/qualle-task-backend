@@ -8,18 +8,21 @@ export interface TaskEventProps {
   taskId: string;
   eventAuthorId: string;
   eventType: TaskEventType;
+  assigneeIds: string[];
 }
 
 export class TaskEvent {
   taskId: string;
   eventAuthorId: string;
   eventType: TaskEventType;
+  assigneeIds: string[];
   timestamp: Date;
 
   private constructor(props: TaskEventProps) {
     this.taskId = props.taskId;
     this.eventAuthorId = props.eventAuthorId;
     this.eventType = props.eventType;
+    this.assigneeIds = props.assigneeIds;
     this.timestamp = new Date();
   }
 

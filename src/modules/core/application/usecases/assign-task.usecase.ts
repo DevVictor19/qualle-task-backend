@@ -46,6 +46,7 @@ export class AssignTaskUseCase implements UseCase<AssignTaskInputDto, TaskDto> {
         taskId: task.id,
         eventAuthorId: input.loggedUserId,
         eventType: TaskEventType.TASK_ASSIGNED,
+        assigneeIds: task.assignees?.map((a) => a.id) ?? [],
       }),
     );
 
