@@ -12,6 +12,15 @@ export interface TaskEntityProps extends BaseEntityProps {
   assignees?: UserEntity[];
 }
 
+export interface TaskEntityUpdateProps {
+  title?: string;
+  description?: Maybe<string>;
+  status?: TaskStatus;
+  priority?: TaskPriority;
+  overDueDate?: Maybe<Date>;
+  assignees?: UserEntity[];
+}
+
 export class TaskEntity extends BaseEntity {
   creatorId: string;
   title: string;
@@ -46,6 +55,27 @@ export class TaskEntity extends BaseEntity {
 
   static create(props: TaskEntityProps): TaskEntity {
     return new TaskEntity(props);
+  }
+
+  update(props: TaskEntityUpdateProps): void {
+    if (props.title !== undefined) {
+      this.title = props.title;
+    }
+    if (props.description !== undefined) {
+      this.description = props.description;
+    }
+    if (props.status !== undefined) {
+      this.status = props.status;
+    }
+    if (props.priority !== undefined) {
+      this.priority = props.priority;
+    }
+    if (props.overDueDate !== undefined) {
+      this.overDueDate = props.overDueDate;
+    }
+    if (props.assignees !== undefined) {
+      this.assignees = props.assignees;
+    }
   }
 }
 
