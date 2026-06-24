@@ -131,6 +131,30 @@ pnpm start:dev
 
 O servidor estará disponível em `http://localhost:3000/graphql`.
 
+## Testes
+
+O projeto usa [Jest](https://jestjs.io/) 
+
+### Rodar todos os testes
+
+```bash
+pnpm test
+```
+
+### Rodar em modo watch (re-executa ao salvar)
+
+```bash
+pnpm test:watch
+```
+
+### Gerar relatório de cobertura
+
+```bash
+pnpm test:cov
+```
+
+O relatório será gerado na pasta `coverage/`.
+
 ## Migrations
 
 O projeto usa TypeORM com `synchronize: false`, ou seja, todas as mudanças de schema são feitas via migrations.
