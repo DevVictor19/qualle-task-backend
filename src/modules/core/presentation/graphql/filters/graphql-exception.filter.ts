@@ -1,4 +1,4 @@
-import { ArgumentsHost, Catch } from '@nestjs/common';
+import { ArgumentsHost, BadRequestException, Catch } from '@nestjs/common';
 import { GqlExceptionFilter } from '@nestjs/graphql';
 import { GraphQLError } from 'graphql';
 import { ApplicationError } from '../../../application/errors';
@@ -15,6 +15,18 @@ export class GraphqlExceptionFilter implements GqlExceptionFilter {
           code: mapped.code,
           status: mapped.status,
         },
+      });
+    }
+
+    if (exception instanceof BadRequestException) {
+      const response = exception.getResponse() as {
+        message: string | string[];
+      };
+      const messages = Array.isArray(response.message)
+        ? response.message
+        : [response.message];
+      return new GraphQLError(messages.join('; '), {
+        extensions: { code: 'BAD_REQUEST', status: 400 },
       });
     }
 
