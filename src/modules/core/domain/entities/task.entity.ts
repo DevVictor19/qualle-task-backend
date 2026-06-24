@@ -1,5 +1,6 @@
 import { BaseEntity, BaseEntityProps, Maybe } from '@/shared/domain';
 import { UserEntity } from './user.entity';
+import { CommentEntity } from './comment.entity';
 
 export interface TaskEntityProps extends BaseEntityProps {
   creatorId: string;
@@ -10,6 +11,7 @@ export interface TaskEntityProps extends BaseEntityProps {
   overDueDate?: Maybe<Date>;
   creator?: UserEntity;
   assignees?: UserEntity[];
+  comments?: CommentEntity[];
 }
 
 export interface TaskEntityUpdateProps {
@@ -19,6 +21,7 @@ export interface TaskEntityUpdateProps {
   priority?: TaskPriority;
   overDueDate?: Maybe<Date>;
   assignees?: UserEntity[];
+  comments?: CommentEntity[];
 }
 
 export class TaskEntity extends BaseEntity {
@@ -30,6 +33,7 @@ export class TaskEntity extends BaseEntity {
   overDueDate?: Maybe<Date>;
   creator?: UserEntity;
   assignees?: UserEntity[];
+  comments?: CommentEntity[];
 
   private constructor({
     creatorId,
@@ -40,6 +44,7 @@ export class TaskEntity extends BaseEntity {
     overDueDate,
     creator,
     assignees,
+    comments,
     ...base
   }: TaskEntityProps) {
     super(base);
@@ -51,6 +56,7 @@ export class TaskEntity extends BaseEntity {
     this.overDueDate = overDueDate;
     this.creator = creator;
     this.assignees = assignees;
+    this.comments = comments;
   }
 
   static create(props: TaskEntityProps): TaskEntity {
@@ -75,6 +81,9 @@ export class TaskEntity extends BaseEntity {
     }
     if (props.assignees !== undefined) {
       this.assignees = props.assignees;
+    }
+    if (props.comments !== undefined) {
+      this.comments = props.comments;
     }
   }
 }
