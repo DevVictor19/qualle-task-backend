@@ -7,6 +7,7 @@ Backend da aplicação Qualle Task, construído com NestJS e TypeORM (PostgreSQL
 - Node.js 20+
 - pnpm
 - PostgreSQL
+- make [https://developers.make.com/make-cli/make-cli/install-the-make-cli]
 
 ## Configuração
 
@@ -20,32 +21,34 @@ cp .env.example .env
 
 O projeto usa TypeORM com `synchronize: false`, ou seja, todas as mudanças de schema são feitas via migrations.
 
-### Gerar migration
-
-Compara as entities com o estado atual do banco e gera o SQL de diferença automaticamente:
-
-```bash
-pnpm run migration:generate -- src/database/migrations/NomeDaMigration
-```
+Os arquivos ficam em `src/database/migrations/` e são gerados em TypeScript.
 
 ### Criar migration vazia
 
 Para escrever SQL manualmente:
 
 ```bash
-pnpm run migration:create -- src/database/migrations/NomeDaMigration
+make migration-create name=NomeDaMigration
+```
+
+### Gerar migration automaticamente
+
+Compara as entities com o estado atual do banco e gera o SQL de diferença:
+
+```bash
+make migration-generate name=NomeDaMigration
 ```
 
 ### Rodar migrations pendentes
 
 ```bash
-pnpm run migration:run
+make migration-run
 ```
 
 ### Reverter a última migration
 
 ```bash
-pnpm run migration:revert
+make migration-revert
 ```
 
 ### Ver status das migrations
@@ -53,7 +56,5 @@ pnpm run migration:revert
 Mostra quais migrations já foram executadas e quais estão pendentes:
 
 ```bash
-pnpm run migration:show
+make migration-show
 ```
-
-> Os arquivos de migration ficam em `src/database/migrations/` e são gerados em TypeScript.
