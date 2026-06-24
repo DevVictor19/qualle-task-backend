@@ -9,3 +9,6 @@ export * from './update-task.usecase';
 export * from './add-task-comment.usecase';
 export * from './assign-task.usecase';
 export * from './find-users-paginated.usecase';
+export * from './notify-task-assign.usecase';
+export * from './notify-task-comment.usecase';
+export * from './notify-task-update.usecase';

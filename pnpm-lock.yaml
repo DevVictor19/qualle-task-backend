@@ -50,6 +50,12 @@ importers:
       graphql:
         specifier: ^17.0.1
         version: 17.0.1
+      graphql-subscriptions:
+        specifier: ^3.0.0
+        version: 3.0.0(graphql@17.0.1)
+      graphql-ws:
+        specifier: ^6.0.8
+        version: 6.0.8(graphql@17.0.1)(ws@8.21.0)
       jsonwebtoken:
         specifier: ^9.0.3
         version: 9.0.3
@@ -65,6 +71,9 @@ importers:
       typeorm:
         specifier: ^1.0.0
         version: 1.0.0(pg@8.22.0)(ts-node@10.9.2(@types/node@24.13.2)(typescript@5.9.3))
+      ws:
+        specifier: ^8.21.0
+        version: 8.21.0
     devDependencies:
       '@eslint/eslintrc':
         specifier: ^3.2.0
@@ -99,6 +108,9 @@ importers:
       '@types/supertest':
         specifier: ^7.0.0
         version: 7.2.0
+      '@types/ws':
+        specifier: ^8.18.1
+        version: 8.18.1
       dotenv:
         specifier: ^17.4.2
         version: 17.4.2
@@ -1148,6 +1160,9 @@ packages:
 
   '@types/validator@13.15.10':
     resolution: {integrity: sha512-T8L6i7wCuyoK8A/ZeLYt1+q0ty3Zb9+qbSSvrIVitzT3YjZqkTZ40IbRsPanlB4h1QB3JVL1SYCdR6ngtFYcuA==}
+
+  '@types/ws@8.18.1':
+    resolution: {integrity: sha512-ThVF6DCVhA8kUGy+aazFQ4kXQ7E1Ty7A3ypFOe0IcJV8O/M511G99AW24irKrW56Wt44yG9+ij8FaqoBGkuBXg==}
 
   '@types/yargs-parser@21.0.3':
     resolution: {integrity: sha512-I4q9QU9MQv4oEOz4tAHJtNz1cwuLxn2F3xcc2iV5WdqLPpUnj30aUuxt1mAxYTG+oe8CZMV/+6rU4S4gRDzqtQ==}
@@ -2216,6 +2231,11 @@ packages:
 
   graceful-fs@4.2.11:
     resolution: {integrity: sha512-RbJ5/jmFcNNCcDV5o9eTnBLJ/HszWV0P73bc+Ff4nS/rJj+YaS6IGyiOL0VoBYX+l1Wrl3k63h/KrH+nhJ0XvQ==}
+
+  graphql-subscriptions@3.0.0:
+    resolution: {integrity: sha512-kZCdevgmzDjGAOqH7GlDmQXYAkuHoKpMlJrqF40HMPhUhM5ZWSFSxCwD/nSi6AkaijmMfsFhoJRGJ27UseCvRA==}
+    peerDependencies:
+      graphql: ^15.7.2 || ^16.0.0
 
   graphql-tag@2.12.6:
     resolution: {integrity: sha512-FdSNcu2QQcWnM2VNvSCCDCVS5PpPqpzgFT8+GXzqJuoDd0CBncxCY278u4mhRO7tMgo2JjgJA5aZ+nWSQ/Z+xg==}
@@ -3682,6 +3702,18 @@ packages:
       utf-8-validate:
         optional: true
 
+  ws@8.21.0:
+    resolution: {integrity: sha512-Vsp28b7DRcimFQvrqu2Wek3z1iYxDCWqHYB8Qsnk/S4RfaCQzPGPyBNuVjJV3cd6UiKtUtp6sNM77gWvzcCH+g==}
+    engines: {node: '>=10.0.0'}
+    peerDependencies:
+      bufferutil: ^4.0.1
+      utf-8-validate: '>=5.0.2'
+    peerDependenciesMeta:
+      bufferutil:
+        optional: true
+      utf-8-validate:
+        optional: true
+
   xss@1.0.15:
     resolution: {integrity: sha512-FVdlVVC67WOIPvfOwhoMETV72f6GbW7aOabBC3WxN/oUdoEMDyLz4OgRv5/gck2ZeNqEQu+Tb0kloovXOfpYVg==}
     engines: {node: '>= 0.10.0'}
@@ -4950,6 +4982,10 @@ snapshots:
 
   '@types/validator@13.15.10': {}
 
+  '@types/ws@8.18.1':
+    dependencies:
+      '@types/node': 24.13.2
+
   '@types/yargs-parser@21.0.3': {}
 
   '@types/yargs@17.0.35':
@@ -6066,6 +6102,10 @@ snapshots:
 
   graceful-fs@4.2.11: {}
 
+  graphql-subscriptions@3.0.0(graphql@17.0.1):
+    dependencies:
+      graphql: 17.0.1
+
   graphql-tag@2.12.6(graphql@17.0.1):
     dependencies:
       graphql: 17.0.1
@@ -6076,6 +6116,12 @@ snapshots:
       graphql: 17.0.1
     optionalDependencies:
       ws: 8.20.1
+
+  graphql-ws@6.0.8(graphql@17.0.1)(ws@8.21.0):
+    dependencies:
+      graphql: 17.0.1
+    optionalDependencies:
+      ws: 8.21.0
 
   graphql@17.0.1: {}
 
@@ -7598,6 +7644,8 @@ snapshots:
   ws@7.5.11: {}
 
   ws@8.20.1: {}
+
+  ws@8.21.0: {}
 
   xss@1.0.15:
     dependencies:

@@ -20,7 +20,25 @@ import { CoreModule } from './modules/core/core.module';
           autoSchemaFile: true,
           playground: isDev,
           includeStacktraceInErrorResponses: isDev,
-          context: ({ req }: { req: Request }) => ({ req }),
+          subscriptions: {
+            'graphql-ws': true,
+          },
+          context: ({
+            req,
+            extra,
+          }: {
+            req?: Request;
+            extra?: {
+              request?: Request;
+              connectionParams?: Record<string, unknown>;
+            };
+          }) => {
+            if (req) return { req };
+            return {
+              req: extra?.request,
+              connectionParams: extra?.connectionParams,
+            };
+          },
         };
       },
     }),

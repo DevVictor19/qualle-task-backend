@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
 import {
   CanActivate,
   ExecutionContext,
@@ -9,8 +8,11 @@ import { Reflector } from '@nestjs/core';
 import { GqlExecutionContext } from '@nestjs/graphql';
 import { JwtService } from '@/modules/core/application/services/jwt.service';
 import { IS_PUBLIC_KEY } from '../decorators/public.decorator';
-import { Request } from 'express';
-import { LoggedUser } from '../types';
+
+type GqlContext = {
+  req?: { headers?: Record<string, string>; user?: { userId: string } };
+  connectionParams?: Record<string, unknown>;
+};
 
 @Injectable()
 export class JwtAuthGuard implements CanActivate {
@@ -27,9 +29,13 @@ export class JwtAuthGuard implements CanActivate {
 
     if (isPublic) return true;
 
-    const req = GqlExecutionContext.create(context).getContext()
-      .req as Request & { user?: LoggedUser };
-    const [type, token] = (req.headers?.authorization ?? '').split(' ');
+    const gqlCtx = GqlExecutionContext.create(context).getContext<GqlContext>();
+
+    const authorization =
+      gqlCtx.req?.headers?.authorization ||
+      (gqlCtx.connectionParams?.Authorization as string | undefined);
+
+    const [type, token] = (authorization ?? '').split(' ');
 
     if (type !== 'Bearer' || !token) {
       throw new UnauthorizedException('Token not provided');
@@ -43,7 +49,9 @@ export class JwtAuthGuard implements CanActivate {
       throw new UnauthorizedException('Invalid token');
     }
 
-    req.user = { userId: payload.userId };
+    if (gqlCtx.req) {
+      gqlCtx.req.user = { userId: payload.userId };
+    }
 
     return true;
   }

@@ -11,6 +11,7 @@ import {
   TaskAssigneeTypeOrmRepository,
   TaskEventBusServiceImpl,
   TaskOrmEntity,
+  TaskPubSubServiceImpl,
   TaskTypeOrmRepository,
   UserOrmEntity,
   UserTypeOrmRepository,
@@ -32,7 +33,11 @@ import {
   FindUsersPaginatedUseCase,
   HashService,
   JwtService,
+  NotifyTaskAssignUseCase,
+  NotifyTaskCommentUseCase,
+  NotifyTaskUpdateUseCase,
   TaskEventBusService,
+  TaskPubSubService,
   UpdateTaskUseCase,
   UserLoginUseCase,
   UserSignupUseCase,
@@ -41,6 +46,7 @@ import {
   LoginResolver,
   SignupResolver,
   TaskResolver,
+  TaskSubscriptionResolver,
   UserResolver,
 } from './presentation';
 
@@ -80,6 +86,10 @@ import {
       provide: TaskEventBusService,
       useClass: TaskEventBusServiceImpl,
     },
+    {
+      provide: TaskPubSubService,
+      useClass: TaskPubSubServiceImpl,
+    },
     AddTaskCommentUseCase,
     AssignTaskUseCase,
     CreateTaskUseCase,
@@ -91,10 +101,14 @@ import {
     UpdateTaskUseCase,
     UserLoginUseCase,
     UserSignupUseCase,
+    NotifyTaskAssignUseCase,
+    NotifyTaskCommentUseCase,
+    NotifyTaskUpdateUseCase,
     SignupResolver,
     LoginResolver,
     UserResolver,
     TaskResolver,
+    TaskSubscriptionResolver,
   ],
 })
 export class CoreModule {}
