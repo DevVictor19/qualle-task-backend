@@ -118,6 +118,26 @@ query {
 }
 ```
 
+#### `users` — Listagem paginada de usuários
+
+Suporta paginação e filtro opcional por `name` (busca parcial).
+
+```graphql
+query {
+  users(input: { page: 1, limit: 10, name: "João" }) {
+    total
+    page
+    limit
+    data {
+      id
+      name
+      email
+      createdAt
+    }
+  }
+}
+```
+
 #### `tasks` — Listagem paginada de tarefas
 
 Suporta paginação e filtros opcionais por `status`, `priority` e `overDueDate`.

@@ -6,3 +6,4 @@ export * from './delete-task.input';
 export * from './assign-task.input';
 export * from './add-comment.input';
 export * from './tasks-filter.input';
+export * from './users-filter.input';

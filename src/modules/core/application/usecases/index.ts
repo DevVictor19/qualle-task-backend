@@ -8,3 +8,4 @@ export * from './delete-task.usecase';
 export * from './update-task.usecase';
 export * from './add-task-comment.usecase';
 export * from './assign-task.usecase';
+export * from './find-users-paginated.usecase';
