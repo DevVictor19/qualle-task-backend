@@ -12,9 +12,9 @@ export class CommentTable1782299123940 implements MigrationInterface {
                 "updatedAt" TIMESTAMP NOT NULL DEFAULT now(),
                 CONSTRAINT "PK_comment_id" PRIMARY KEY ("id"),
                 CONSTRAINT "FK_comment_task_id" FOREIGN KEY ("task_id")
-                    REFERENCES "task"("id") ON DELETE NO ACTION ON UPDATE NO ACTION,
+                    REFERENCES "task"("id") ON DELETE CASCADE ON UPDATE NO ACTION,
                 CONSTRAINT "FK_comment_user_id" FOREIGN KEY ("user_id")
-                    REFERENCES "user"("id") ON DELETE NO ACTION ON UPDATE NO ACTION
+                    REFERENCES "user"("id") ON DELETE CASCADE ON UPDATE NO ACTION
             )
         `);
   }

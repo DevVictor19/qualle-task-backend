@@ -8,9 +8,9 @@ export class CreateTaskAssigneeTable1782299105426 implements MigrationInterface 
                 "user_id" uuid NOT NULL,
                 CONSTRAINT "PK_task_assignee" PRIMARY KEY ("task_id", "user_id"),
                 CONSTRAINT "FK_task_assignee_task_id" FOREIGN KEY ("task_id")
-                    REFERENCES "task"("id") ON DELETE NO ACTION ON UPDATE NO ACTION,
+                    REFERENCES "task"("id") ON DELETE CASCADE ON UPDATE NO ACTION,
                 CONSTRAINT "FK_task_assignee_user_id" FOREIGN KEY ("user_id")
-                    REFERENCES "user"("id") ON DELETE NO ACTION ON UPDATE NO ACTION
+                    REFERENCES "user"("id") ON DELETE CASCADE ON UPDATE NO ACTION
             )
         `);
   }
