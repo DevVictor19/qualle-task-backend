@@ -2,12 +2,27 @@ import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { EventEmitterModule } from '@nestjs/event-emitter';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { GraphQLModule } from '@nestjs/graphql';
+import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { CoreModule } from './modules/core/core.module';
 
 @Module({
   imports: [
     EventEmitterModule.forRoot(),
     ConfigModule.forRoot({ isGlobal: true }),
+    GraphQLModule.forRootAsync<ApolloDriverConfig>({
+      imports: [ConfigModule],
+      inject: [ConfigService],
+      driver: ApolloDriver,
+      useFactory: (config: ConfigService) => {
+        const isDev = config.get<string>('NODE_ENV') === 'development';
+        return {
+          autoSchemaFile: true,
+          playground: isDev,
+          includeStacktraceInErrorResponses: isDev,
+        };
+      },
+    }),
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
       inject: [ConfigService],
