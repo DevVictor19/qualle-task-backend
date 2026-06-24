@@ -1,14 +1,23 @@
 import { UseCase } from '@/shared/application';
 import { Injectable } from '@nestjs/common';
-import { UserLoginInputDto, UserLoginOutputDto } from '../dtos';
 import { UserRepository } from '../../domain';
 import { HashService, JwtService } from '../services';
 import { UnauthorizedError } from '../errors';
 
+export interface LoginInputDto {
+  email: string;
+  password: string;
+}
+
+export interface LoginOutputDto {
+  accessToken: string;
+  refreshToken: string;
+}
+
 @Injectable()
 export class UserLoginUseCase implements UseCase<
-  UserLoginInputDto,
-  UserLoginOutputDto
+  LoginInputDto,
+  LoginOutputDto
 > {
   constructor(
     private readonly userRepository: UserRepository,
@@ -16,7 +25,7 @@ export class UserLoginUseCase implements UseCase<
     private readonly hashService: HashService,
   ) {}
 
-  async execute(input: UserLoginInputDto): Promise<UserLoginOutputDto> {
+  async execute(input: LoginInputDto): Promise<LoginOutputDto> {
     const user = await this.userRepository.findByEmail(input.email);
     if (!user) {
       throw new UnauthorizedError('Invalid email or password');

@@ -1,9 +1,13 @@
 import { UseCase } from '@/shared/application';
 import { Injectable } from '@nestjs/common';
 import { UserRepository } from '../../domain';
-import { FindUserDetailsInputDto, UserDto } from '../dtos';
+import { UserDto } from '../dtos';
 import { ResourceNotFoundError } from '../errors';
 import { UserMapper } from '../mappers';
+
+export interface FindUserDetailsInputDto {
+  userId: string;
+}
 
 @Injectable()
 export class FindUserDetailsUseCase implements UseCase<
