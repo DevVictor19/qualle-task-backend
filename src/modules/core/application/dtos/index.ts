@@ -1,2 +1,2 @@
-export * from './user.dtos';
-export * from './task.dtos';
+export * from './user.dto';
+export * from './task.dto';

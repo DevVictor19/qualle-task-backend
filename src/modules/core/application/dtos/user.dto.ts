@@ -1,4 +1,4 @@
-import { TaskDto } from './task.dtos';
+import { TaskDto } from './task.dto';
 
 export interface UserDto {
   id: string;

@@ -1,5 +1,5 @@
 import { Maybe } from '@/shared/domain';
-import { UserDto } from './user.dtos';
+import { UserDto } from './user.dto';
 
 export interface TaskDto {
   id: string;
