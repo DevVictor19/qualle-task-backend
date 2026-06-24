@@ -4,6 +4,6 @@ export interface JwtPayload {
 }
 
 export abstract class JwtService {
-  abstract sign(payload: JwtPayload, exp?: number): Promise<string>;
-  abstract verify<T>(token: string): Promise<T | null>;
+  abstract sign(payload: JwtPayload, expInSeconds: number): string;
+  abstract verify<T>(token: string): T | null;
 }

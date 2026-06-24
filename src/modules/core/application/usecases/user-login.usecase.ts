@@ -40,18 +40,16 @@ export class UserLoginUseCase implements UseCase<
     }
 
     const oneHourInSeconds = 60 * 60;
-    const sevenDaysInSeconds = 60 * 60 * 24 * 7;
+    const accessToken = this.jwtService.sign(
+      { userId: user.id, type: 'access_token' },
+      oneHourInSeconds,
+    );
 
-    const [accessToken, refreshToken] = await Promise.all([
-      this.jwtService.sign(
-        { userId: user.id, type: 'access_token' },
-        oneHourInSeconds,
-      ),
-      this.jwtService.sign(
-        { userId: user.id, type: 'refresh_token' },
-        sevenDaysInSeconds,
-      ),
-    ]);
+    const sevenDaysInSeconds = 60 * 60 * 24 * 7;
+    const refreshToken = this.jwtService.sign(
+      { userId: user.id, type: 'refresh_token' },
+      sevenDaysInSeconds,
+    );
 
     return {
       accessToken,
