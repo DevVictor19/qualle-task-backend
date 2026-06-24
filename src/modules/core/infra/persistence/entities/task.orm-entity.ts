@@ -1,10 +1,10 @@
-/* eslint-disable @typescript-eslint/no-unsafe-return */
 import { Column, Entity, JoinColumn, ManyToOne, OneToMany } from 'typeorm';
 import { BaseOrmEntity } from '@/shared/infra/persistence/entities/base-orm.entity';
 import {
   TaskPriority,
   TaskStatus,
 } from '@/modules/core/domain/entities/task.entity';
+import type { Maybe } from '@/shared/domain';
 import { UserOrmEntity } from './user.orm-entity';
 import { TaskAssigneeOrmEntity } from './task-assignee.orm-entity';
 import { CommentOrmEntity } from './comment.orm-entity';
@@ -18,7 +18,7 @@ export class TaskOrmEntity extends BaseOrmEntity {
   title: string;
 
   @Column({ type: 'text', nullable: true })
-  description: string | null;
+  description?: Maybe<string>;
 
   @Column({ type: 'enum', enum: TaskStatus })
   status: TaskStatus;
@@ -27,7 +27,7 @@ export class TaskOrmEntity extends BaseOrmEntity {
   priority: TaskPriority;
 
   @Column({ type: 'timestamp', nullable: true, name: 'overdue_date' })
-  overdueDate: Date | null;
+  overdueDate?: Maybe<Date>;
 
   @ManyToOne(() => UserOrmEntity, (user) => user.createdTasks)
   @JoinColumn({ name: 'creator_id' })
