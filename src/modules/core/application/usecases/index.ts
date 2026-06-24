@@ -6,3 +6,4 @@ export * from './find-task-details.usecase';
 export * from './find-tasks-paginated.usecase';
 export * from './delete-task.usecase';
 export * from './update-task.usecase';
+export * from './add-task-comment.usecase';
