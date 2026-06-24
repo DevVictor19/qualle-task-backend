@@ -1,5 +1,6 @@
 import { TaskEntity } from '../../domain';
 import { TaskDto } from '../dtos';
+import { CommentMapper } from './comment.mapper';
 import { UserMapper } from './user.mapper';
 
 export class TaskMapper {
@@ -15,6 +16,9 @@ export class TaskMapper {
       creator: task.creator ? UserMapper.toDto(task.creator) : undefined,
       assignees: task.assignees
         ? UserMapper.toCollectionDto(task.assignees)
+        : undefined,
+      comments: task.comments
+        ? CommentMapper.toCollectionDto(task.comments)
         : undefined,
       createdAt: task.createdAt,
       updatedAt: task.updatedAt,
