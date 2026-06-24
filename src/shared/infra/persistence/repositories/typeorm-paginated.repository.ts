@@ -25,8 +25,22 @@ export abstract class TypeOrmPaginatedRepository<
 
     const qb = this.repository.createQueryBuilder(alias);
 
+    const joinedAliases = new Set<string>();
     for (const relation of this.getRelations()) {
-      qb.leftJoinAndSelect(`${alias}.${relation}`, relation);
+      const parts = relation.split('.');
+      let parentAlias = alias;
+
+      for (let i = 0; i < parts.length; i++) {
+        const part = parts[i];
+        const currentAlias = i === 0 ? part : parts.slice(0, i + 1).join('_');
+
+        if (!joinedAliases.has(currentAlias)) {
+          qb.leftJoinAndSelect(`${parentAlias}.${part}`, currentAlias);
+          joinedAliases.add(currentAlias);
+        }
+
+        parentAlias = currentAlias;
+      }
     }
 
     filters.forEach((filter, index) => {
