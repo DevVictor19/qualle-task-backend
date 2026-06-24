@@ -260,3 +260,71 @@ mutation {
   }
 }
 ```
+
+### Subscriptions
+
+As subscriptions usam WebSocket. A conexão é feita no mesmo endpoint do GraphQL, mas via protocolo `graphql-ws`:
+
+```
+ws://localhost:3000/graphql
+```
+
+O `accessToken` deve ser enviado nos parâmetros de conexão (`connectionParams`):
+
+```json
+{
+  "Authorization": "Bearer <accessToken>"
+}
+```
+
+Os eventos são filtrados automaticamente pelo servidor — o usuário autenticado só recebe notificações de tarefas nas quais ele é assignee.
+
+Todos retornam `TaskNotificationOutput`:
+
+| Campo | Tipo | Descrição |
+|---|---|---|
+| `taskId` | `String` | ID da tarefa que gerou o evento |
+| `eventAuthorId` | `String` | ID do usuário que disparou o evento |
+| `eventType` | `String` | Tipo do evento (`TASK_UPDATED`, `TASK_ASSIGNED`, `TASK_NEW_COMMENT`) |
+
+#### `taskUpdated` — Tarefa atualizada
+
+Disparado quando os dados de uma tarefa são modificados.
+
+```graphql
+subscription {
+  taskUpdated {
+    taskId
+    eventAuthorId
+    eventType
+  }
+}
+```
+
+#### `taskAssigned` — Usuário atribuído a uma tarefa
+
+Disparado quando o usuário é adicionado como assignee de uma tarefa.
+
+```graphql
+subscription {
+  taskAssigned {
+    taskId
+    eventAuthorId
+    eventType
+  }
+}
+```
+
+#### `taskNewComment` — Novo comentário em tarefa
+
+Disparado quando um comentário é adicionado a uma tarefa da qual o usuário é assignee.
+
+```graphql
+subscription {
+  taskNewComment {
+    taskId
+    eventAuthorId
+    eventType
+  }
+}
+```
