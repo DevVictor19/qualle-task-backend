@@ -1,5 +1,6 @@
 import { BaseEntity, BaseEntityProps } from '@/shared/domain';
 import { TaskEntity } from './task.entity';
+import { CommentEntity } from './comment.entity';
 
 export interface UserEntityProps extends BaseEntityProps {
   name: string;
@@ -7,6 +8,7 @@ export interface UserEntityProps extends BaseEntityProps {
   password: string;
   createdTasks?: TaskEntity[];
   assignedTasks?: TaskEntity[];
+  comments?: CommentEntity[];
 }
 
 export class UserEntity extends BaseEntity {
@@ -15,6 +17,7 @@ export class UserEntity extends BaseEntity {
   password: string;
   createdTasks?: TaskEntity[];
   assignedTasks?: TaskEntity[];
+  comments?: CommentEntity[];
 
   private constructor({
     name,
@@ -22,6 +25,7 @@ export class UserEntity extends BaseEntity {
     password,
     createdTasks,
     assignedTasks,
+    comments,
     ...base
   }: UserEntityProps) {
     super(base);
@@ -30,6 +34,7 @@ export class UserEntity extends BaseEntity {
     this.password = password;
     this.createdTasks = createdTasks;
     this.assignedTasks = assignedTasks;
+    this.comments = comments;
   }
 
   static create(props: UserEntityProps): UserEntity {
