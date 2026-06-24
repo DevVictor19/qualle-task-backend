@@ -38,7 +38,7 @@ export class ApplicationErrorMapper {
       default:
         return {
           status: 500,
-          code: 'INTERNAL_ERROR',
+          code: ApplicationErrCode.INTERNAL_ERROR,
           message: 'Internal Server Error',
         };
     }
