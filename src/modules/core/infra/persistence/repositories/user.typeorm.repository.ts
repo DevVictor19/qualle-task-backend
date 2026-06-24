@@ -1,14 +1,14 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { TypeOrmBaseRepository } from '@/shared/infra/persistence/repositories';
+import { TypeOrmPaginatedRepository } from '@/shared/infra/persistence/repositories';
 import { UserEntity } from '@/modules/core/domain/entities';
 import { UserRepository } from '@/modules/core/domain/repositories';
 import { UserOrmEntity } from '../entities';
 
 @Injectable()
 export class UserTypeOrmRepository
-  extends TypeOrmBaseRepository<UserEntity, UserOrmEntity>
+  extends TypeOrmPaginatedRepository<UserEntity, UserOrmEntity>
   implements UserRepository
 {
   constructor(
