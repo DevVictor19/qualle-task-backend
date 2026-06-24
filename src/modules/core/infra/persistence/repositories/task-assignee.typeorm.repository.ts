@@ -14,14 +14,16 @@ export class TaskAssigneeTypeOrmRepository extends TaskAssigneeRepository {
   }
 
   async deleteAndInsert(taskId: string, assigneeIds: string[]): Promise<void> {
-    await this.repository.delete({ taskId });
+    await this.repository.manager.transaction(async (manager) => {
+      await manager.delete(TaskAssigneeOrmEntity, { taskId });
 
-    if (assigneeIds.length === 0) return;
+      if (assigneeIds.length === 0) return;
 
-    const entities = assigneeIds.map((userId) =>
-      Object.assign(new TaskAssigneeOrmEntity(), { taskId, userId }),
-    );
+      const entities = assigneeIds.map((userId) =>
+        Object.assign(new TaskAssigneeOrmEntity(), { taskId, userId }),
+      );
 
-    await this.repository.save(entities);
+      await manager.save(entities);
+    });
   }
 }
