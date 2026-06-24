@@ -2,6 +2,90 @@
 
 Backend da aplicação Qualle Task, construído com NestJS e TypeORM (PostgreSQL).
 
+## Arquitetura
+
+O projeto segue os princípios de **Clean Architecture**, organizando o código em camadas com dependências que apontam sempre para dentro (do mais externo ao mais interno: Presentation → Application → Domain).
+
+### Camadas
+
+```
+src/
+├── shared/               # Kernel compartilhado (bases reutilizáveis entre módulos)
+└── modules/
+    └── core/             # Bounded context principal
+        ├── domain/       # Núcleo — entidades, interfaces de repositório, value objects
+        ├── application/  # Casos de uso, DTOs, mappers, interfaces de serviço
+        ├── infra/        # Implementações concretas (TypeORM, JWT, bcrypt, PubSub)
+        └── presentation/ # Resolvers GraphQL, inputs, outputs, filtros de exceção
+```
+
+### Domain
+
+Entidades puras sem dependência de framework: `User`, `Task`, `Comment`, `TaskAssignee`. Os repositórios são definidos aqui como **interfaces** (ports), garantindo que o domínio não conheça o banco de dados. Value objects como `TaskEventVO` encapsulam conceitos do domínio.
+
+### Application
+
+Cada operação é um **use case** isolado (ex: `CreateTaskUseCase`, `AssignTaskUseCase`). Os use cases dependem apenas das interfaces de repositório e de serviço definidas no domínio/application, nunca de TypeORM ou NestJS diretamente. DTOs e mappers fazem a tradução entre camadas.
+
+### Infrastructure
+
+Implementações concretas que satisfazem as interfaces do domínio:
+- **Repositórios TypeORM** — `UserTypeormRepository`, `TaskTypeormRepository`, etc., com ORM entities separadas das domain entities.
+- **Serviços** — `BcryptHashService`, `JwtService`, `TaskEventBusService` (NestJS EventEmitter), `TaskPubSubService` (graphql-subscriptions).
+
+### Presentation
+
+Resolvers GraphQL code-first. A autenticação JWT é aplicada globalmente via guard, com a anotação `@Public()` marcando as rotas abertas (`register`, `login`). As **subscriptions** usam WebSocket (`graphql-ws`) e publicam eventos via PubSub após o EventBus disparar em resposta às mutations de escrita.
+
+### Fluxo de evento em tempo real
+
+```
+Mutation (ex: updateTask)
+  → Use Case executa a lógica de negócio
+  → Dispara evento no TaskEventBus (EventEmitter)
+  → NotifyTaskUpdateUseCase ouve o evento
+  → Publica no TaskPubSub (graphql-subscriptions)
+  → Subscription filtra por assignee e notifica o cliente via WebSocket
+```
+
+## Casos de uso
+
+### Autenticação
+
+| Use Case | Entrada | Saída | Descrição |
+|---|---|---|---|
+| `UserSignupUseCase` | `name`, `email`, `password` | `void` | Verifica se o e-mail já está em uso (`ConflictError`), faz hash da senha via `HashService` e persiste o novo usuário. |
+| `UserLoginUseCase` | `email`, `password` | `accessToken`, `refreshToken` | Busca o usuário pelo e-mail, compara a senha com o hash armazenado (`UnauthorizedError` se inválido) e emite dois JWTs: `accessToken` com validade de 1 hora e `refreshToken` com validade de 7 dias. |
+
+### Usuários
+
+| Use Case | Entrada | Saída | Descrição |
+|---|---|---|---|
+| `FindUserDetailsUseCase` | `userId` | `UserDto` | Retorna os detalhes de um usuário pelo ID. Lança `ResourceNotFoundError` se não encontrado. |
+| `FindUsersPaginatedUseCase` | `page`, `limit`, filtros opcionais | `PaginatedResult<UserDto>` | Listagem paginada de usuários com suporte a filtro por nome (busca parcial). |
+
+### Tarefas
+
+| Use Case | Entrada | Saída | Descrição |
+|---|---|---|---|
+| `CreateTaskUseCase` | `creatorId`, `title`, `status`, `priority`, opcionais: `description`, `overDueDate` | `TaskDto` | Cria uma nova tarefa associada ao usuário autenticado e a persiste. |
+| `UpdateTaskUseCase` | `taskId`, `userId`, campos opcionais | `TaskDto` | Atualiza os campos fornecidos de uma tarefa existente (`ResourceNotFoundError` se não encontrada) e dispara o evento `TASK_UPDATED` no `TaskEventBus` com os IDs dos assignees atuais. |
+| `DeleteTaskUseCase` | `taskId` | `void` | Remove uma tarefa pelo ID. |
+| `FindTaskDetailsUseCase` | `taskId` | `TaskDto` | Retorna os detalhes completos de uma tarefa, incluindo criador, assignees e comentários. Lança `ResourceNotFoundError` se não encontrada. |
+| `FindTasksPaginatedUseCase` | `page`, `limit`, filtros opcionais | `PaginatedResult<TaskDto>` | Listagem paginada de tarefas com suporte a filtros por `status`, `priority` e `overDueDate`. |
+| `AssignTaskUseCase` | `taskId`, `loggedUserId`, `assigneeIds[]` | `TaskDto` | Substitui a lista de assignees da tarefa de forma atômica (delete + insert) e dispara o evento `TASK_ASSIGNED`. |
+| `AddTaskCommentUseCase` | `taskId`, `userId`, `content` | `TaskDto` | Persiste um novo comentário vinculado à tarefa e dispara o evento `TASK_NEW_COMMENT`. |
+
+### Notificações (event listeners)
+
+Esses use cases não são chamados diretamente por resolvers — eles **escutam eventos** emitidos pelo `TaskEventBus` via `@OnEvent` e os republicam no `TaskPubSubService`, que alimenta as subscriptions WebSocket.
+
+| Use Case | Evento escutado | Ação |
+|---|---|---|
+| `NotifyTaskUpdateUseCase` | `TASK_UPDATED` | Publica o evento no PubSub para notificar assignees via subscription `taskUpdated`. |
+| `NotifyTaskAssignUseCase` | `TASK_ASSIGNED` | Publica o evento no PubSub para notificar assignees via subscription `taskAssigned`. |
+| `NotifyTaskCommentUseCase` | `TASK_NEW_COMMENT` | Publica o evento no PubSub para notificar assignees via subscription `taskNewComment`. |
+
 ## Pré-requisitos
 
 - Node.js 20+
