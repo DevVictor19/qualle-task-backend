@@ -36,7 +36,12 @@ import {
   UserLoginUseCase,
   UserSignupUseCase,
 } from './application';
-import { LoginResolver, SignupResolver } from './presentation';
+import {
+  LoginResolver,
+  SignupResolver,
+  TaskResolver,
+  UserResolver,
+} from './presentation';
 
 @Module({
   imports: [
@@ -86,6 +91,8 @@ import { LoginResolver, SignupResolver } from './presentation';
     UserSignupUseCase,
     SignupResolver,
     LoginResolver,
+    UserResolver,
+    TaskResolver,
   ],
 })
 export class CoreModule {}

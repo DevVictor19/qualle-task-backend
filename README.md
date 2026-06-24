@@ -67,7 +67,7 @@ Com o servidor rodando em modo desenvolvimento (`NODE_ENV=development`), o playg
 http://localhost:3000/graphql
 ```
 
-### Mutations disponíveis
+### Rotas públicas
 
 #### `register` — Cadastro de usuário
 
@@ -81,7 +81,7 @@ mutation {
 }
 ```
 
-Retorna `true` em caso de sucesso. Em caso de erro de validação, a resposta inclui os detalhes no campo `errors`.
+Retorna `true` em caso de sucesso.
 
 #### `login` — Autenticação de usuário
 
@@ -95,3 +95,148 @@ mutation {
 ```
 
 Retorna `accessToken` e `refreshToken` em caso de sucesso.
+
+### Rotas protegidas
+
+Todas as rotas abaixo exigem autenticação via JWT. Passe o `accessToken` no header:
+
+```
+Authorization: Bearer <accessToken>
+```
+
+#### `me` — Perfil do usuário logado
+
+```graphql
+query {
+  me {
+    id
+    name
+    email
+    createdAt
+    updatedAt
+  }
+}
+```
+
+#### `tasks` — Listagem paginada de tarefas
+
+Suporta paginação e filtros opcionais por `status`, `priority` e `overDueDate`.
+
+Valores de `status`: `TODO`, `IN_PROGRESS`, `DONE`, `CANCELLED`  
+Valores de `priority`: `LOW`, `MEDIUM`, `HIGH`
+
+```graphql
+query {
+  tasks(input: { page: 1, limit: 10, status: TODO, priority: HIGH }) {
+    total
+    page
+    limit
+    data {
+      id
+      title
+      status
+      priority
+      overDueDate
+      creator { id name }
+      assignees { id name }
+      comments { id content userId }
+    }
+  }
+}
+```
+
+#### `task` — Detalhes de uma tarefa
+
+```graphql
+query {
+  task(taskId: "uuid-da-tarefa") {
+    id
+    title
+    description
+    status
+    priority
+    overDueDate
+    creator { id name email }
+    assignees { id name email }
+    comments { id content userId createdAt }
+    createdAt
+    updatedAt
+  }
+}
+```
+
+#### `createTask` — Criar tarefa
+
+```graphql
+mutation {
+  createTask(input: {
+    title: "Implementar feature X"
+    description: "Descrição opcional"
+    status: TODO
+    priority: HIGH
+    overDueDate: "2026-07-01T00:00:00.000Z"
+  }) {
+    id
+    title
+    status
+    priority
+  }
+}
+```
+
+#### `updateTask` — Atualizar tarefa
+
+Todos os campos exceto `taskId` são opcionais.
+
+```graphql
+mutation {
+  updateTask(input: {
+    taskId: "uuid-da-tarefa"
+    title: "Novo título"
+    status: IN_PROGRESS
+  }) {
+    id
+    title
+    status
+    updatedAt
+  }
+}
+```
+
+#### `deleteTask` — Excluir tarefa
+
+```graphql
+mutation {
+  deleteTask(input: { taskId: "uuid-da-tarefa" })
+}
+```
+
+Retorna `true` em caso de sucesso.
+
+#### `assignTask` — Atribuir usuários à tarefa
+
+```graphql
+mutation {
+  assignTask(input: {
+    taskId: "uuid-da-tarefa"
+    assigneeIds: ["uuid-do-usuario-1", "uuid-do-usuario-2"]
+  }) {
+    id
+    assignees { id name email }
+  }
+}
+```
+
+#### `addComment` — Adicionar comentário à tarefa
+
+```graphql
+mutation {
+  addComment(input: {
+    taskId: "uuid-da-tarefa"
+    content: "Comentário aqui."
+  }) {
+    id
+    comments { id content userId createdAt }
+  }
+}
+```

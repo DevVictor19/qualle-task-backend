@@ -2,6 +2,7 @@ import {
   ArgumentsHost,
   BadRequestException,
   Catch,
+  Logger,
   UnauthorizedException,
 } from '@nestjs/common';
 import { GqlExceptionFilter } from '@nestjs/graphql';
@@ -14,8 +15,15 @@ import { ApplicationErrorMapper } from '@/shared/presentation';
 
 @Catch()
 export class GraphqlExceptionFilter implements GqlExceptionFilter {
+  private readonly logger = new Logger(GraphqlExceptionFilter.name);
+
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   catch(exception: unknown, _host: ArgumentsHost) {
+    this.logger.error(
+      'GraphQL Exception Filter caught an exception',
+      exception,
+    );
+
     if (exception instanceof ApplicationError) {
       const mapped = ApplicationErrorMapper.toPresentation(exception);
       return new GraphQLError(mapped.message, {
