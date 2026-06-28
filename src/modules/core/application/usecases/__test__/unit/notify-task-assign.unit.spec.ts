@@ -34,7 +34,7 @@ describe('NotifyTaskAssignUseCase', () => {
   afterEach(() => jest.restoreAllMocks());
 
   it('should call taskPubSubService.publish with TASK_ASSIGNED event type', async () => {
-    await useCase.handle(mockEvent);
+    await useCase.execute(mockEvent);
 
     expect(taskPubSubService.publish).toHaveBeenCalledWith(
       TaskEventType.TASK_ASSIGNED,
@@ -43,7 +43,7 @@ describe('NotifyTaskAssignUseCase', () => {
   });
 
   it('should call taskPubSubService.publish with the received event payload', async () => {
-    await useCase.handle(mockEvent);
+    await useCase.execute(mockEvent);
 
     expect(taskPubSubService.publish).toHaveBeenCalledWith(
       expect.anything(),
