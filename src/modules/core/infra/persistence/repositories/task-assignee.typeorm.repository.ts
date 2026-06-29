@@ -5,13 +5,11 @@ import { TaskAssigneeRepository } from '@/modules/core/domain/repositories';
 import { TaskAssigneeOrmEntity } from '../entities';
 
 @Injectable()
-export class TaskAssigneeTypeOrmRepository extends TaskAssigneeRepository {
+export class TaskAssigneeTypeOrmRepository implements TaskAssigneeRepository {
   constructor(
     @InjectRepository(TaskAssigneeOrmEntity)
     private readonly repository: Repository<TaskAssigneeOrmEntity>,
-  ) {
-    super();
-  }
+  ) {}
 
   async deleteAndInsert(taskId: string, assigneeIds: string[]): Promise<void> {
     await this.repository.manager.transaction(async (manager) => {
