@@ -7,13 +7,25 @@ export interface BaseEntityProps {
 }
 
 export abstract class BaseEntity {
-  id: string;
-  createdAt: Date;
-  updatedAt: Date;
+  protected _id: string;
+  protected _createdAt: Date;
+  protected _updatedAt: Date;
 
   constructor(props: BaseEntityProps) {
-    this.id = props.id ?? uuidV4();
-    this.createdAt = props.createdAt ?? new Date();
-    this.updatedAt = props.updatedAt ?? new Date();
+    this._id = props.id ?? uuidV4();
+    this._createdAt = props.createdAt ?? new Date();
+    this._updatedAt = props.updatedAt ?? new Date();
+  }
+
+  get id(): string {
+    return this._id;
+  }
+
+  get createdAt(): Date {
+    return this._createdAt;
+  }
+
+  get updatedAt(): Date {
+    return this._updatedAt;
   }
 }
